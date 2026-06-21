@@ -40,7 +40,11 @@ header{
     grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
     gap:15px;
 }
-
+@media(max-width:768px){
+    .gallery{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
 .wallpaper{
     border-radius:12px;
     overflow:hidden;
