@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Wallpapers</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+header{
+    position:sticky;
+    top:0;
+    background:white;
+    padding:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+    z-index:100;
+}
+
+#search{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+}
+
+.gallery{
+    padding:15px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:15px;
+}
+
+.wallpaper{
+    border-radius:12px;
+    overflow:hidden;
+    background:white;
+    cursor:pointer;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.wallpaper img{
+    width:100%;
+    display:block;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.9);
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+}
+
+.modal img{
+    max-width:95%;
+    max-height:95%;
+}
+
+.close{
+    position:absolute;
+    top:20px;
+    right:25px;
+    color:white;
+    font-size:35px;
+    cursor:pointer;
+}
+
+.download{
+    position:absolute;
+    bottom:20px;
+    background:white;
+    color:black;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:8px;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <input type="text" id="search" placeholder="Search wallpapers...">
+</header>
+
+<div class="gallery" id="gallery"></div>
+
+<div class="modal" id="modal">
+    <span class="close">&times;</span>
+    <img id="preview">
+    <a id="downloadBtn" class="download" download>
+        Download
+    </a>
+</div>
+
+<script>
+const wallpapers = [];
+
+const categories = [
+    "Nature",
+    "Anime",
+    "Car",
+    "Gaming",
+    "Mountain",
+    "Space",
+    "Abstract",
+    "AMOLED",
+    "City",
+    "Flowers",
+    "Ocean",
+    "Sunset"
+];
+
+for(let i = 1; i <= 1000; i++){
+    wallpapers.push(
+        categories[i % categories.length] + " " + i
+    );
+}
+
+const gallery = document.getElementById("gallery");
+
+function render(list){
+    gallery.innerHTML = "";
+
+    list.forEach((name,index)=>{
+        const image =
+        `https://picsum.photos/1440/2560?random=${index+1}`;
+
+        const card = document.createElement("div");
+        card.className = "wallpaper";
+
+        card.innerHTML = `
+            <img loading="lazy" src="${image}" alt="${name}">
+        `;
+
+        card.onclick = ()=>{
+            document.getElementById("modal").style.display="flex";
+            document.getElementById("preview").src=image;
+            document.getElementById("downloadBtn").href=image;
+        };
+
+        gallery.appendChild(card);
+    });
+}
+
+render(wallpapers);
+
+document.getElementById("search")
+.addEventListener("input",function(){
+
+    const value = this.value.toLowerCase();
+
+    const filtered = wallpapers.filter(item =>
+        item.toLowerCase().includes(value)
+    );
+
+    render(filtered);
+});
+
+document.querySelector(".close").onclick=()=>{
+    document.getElementById("modal").style.display="none";
+};
+
+document.getElementById("modal").onclick=(e)=>{
+    if(e.target.id==="modal"){
+        document.getElementById("modal").style.display="none";
+    }
+};
+</script>
+
+</body>
+</html>
