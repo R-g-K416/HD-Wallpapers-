@@ -127,7 +127,7 @@ const categories = [
     "Sunset"
 ];
 
-for(let i = 1; i <= 1000; i++){
+for(let i = 1; i <= 20; i++){
     wallpapers.push(
         categories[i % categories.length] + " " + i
     );
@@ -139,6 +139,7 @@ function render(list){
     gallery.innerHTML = "";
 
     list.forEach((name,index)=>{
+        const image =
         const image =
         `https://picsum.photos/1440/2560?random=${index+1}`;
 
